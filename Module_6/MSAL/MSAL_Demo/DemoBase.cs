@@ -15,8 +15,8 @@ namespace MSAL_Demo
         public static string ClientID = "0c5d75ca-66aa-479b-b39b-2b3ad6f93831";
         public static string ClientSecret = "syg7Q~Fn3sknzb.ZrRxAqT~OSMRjVY2mzLIhl";
         public static string[] Scopes = new string[] { "user.read", "profile", "openid", "email" };
-        public static string RedirectUrl = "http://localhost:8080/console";
-        public static string RedirectSslUrl = "https://localhost:8081/console";
+        public static string BaseRedirectUrl = "http://localhost:8080";
+        public static string RedirectUrl = $"{BaseRedirectUrl}/console";
         public static string TenantUrl = $"https://login.microsoftonline.com/{TenantID}/oauth2/v2.0/";
         public static string CommonUrl = $"https://login.microsoftonline.com/common/oauth2/v2.0/";
         public static string OrganizationUrl = $"https://login.microsoftonline.com/organizations/oauth2/v2.0/";

@@ -1,6 +1,6 @@
 ﻿/// <reference path="../msal/index.js" />
 const tenantID = "030b09d5-7f0f-40b0-8c01-03ac319b2d71";
-const clientID = "6ef846f8-e74a-4ae1-9878-c3ab816b63f0";
+const clientID = "0c5d75ca-66aa-479b-b39b-2b3ad6f93831";
 const scopes = ["user.read", "profile", "email"]; // Make sure you consented these permissions in AAD
 const redirectUrl = `https://localhost:${location.port}/index.html`;  // Register this redirect Uri in AAD
 const tenantUrl = `https://login.microsoftonline.com/${tenantID}/oauth2/v2.0/`;

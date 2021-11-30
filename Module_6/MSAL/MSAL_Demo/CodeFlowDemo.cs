@@ -16,10 +16,10 @@ namespace MSAL_Demo
         {
             var app = PublicClientApplicationBuilder.Create(ClientID)
                 .WithTenantId(TenantID)
-                .WithRedirectUri(RedirectUrl)
+                .WithRedirectUri(BaseRedirectUrl) 
                 .Build();
 
-            app.UserTokenCache.SetAfterAccess(TokenCacheSpy);
+           // app.UserTokenCache.SetAfterAccess(TokenCacheSpy);
             // Returns you:
             // - Access Token
             // - Id Token
