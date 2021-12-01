@@ -28,6 +28,10 @@ namespace WebClient
                         options.BlobName = "webclient_log.txt";
                     });
                 })
+                .ConfigureLogging((context, builder) =>
+                {
+                    builder.AddApplicationInsights(context.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureAppConfiguration(config =>

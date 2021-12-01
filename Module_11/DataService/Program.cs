@@ -24,6 +24,9 @@ namespace DataService
                          options.BlobName = "dataservice_log.txt";
                      });
                  })
+                .ConfigureLogging((ctx, builder) => { 
+                    builder.AddApplicationInsights(ctx.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -7,7 +7,7 @@ namespace RedisConsole
 {
     class Program
     {
-        private static string conStr = "ps-redis.redis.cache.windows.net:6380,password=+2QfXaXMxCB1Rqk1thhgKvcu5SqZWcNCktisnqtnoC4=,ssl=True,abortConnect=False";
+        private static string conStr = "ps-cash.redis.cache.windows.net:6380,password=6KKJmOkPW0mfOiKibHrE5pbV3F1OuOg8eAzCaGRwCLs=,ssl=True,abortConnect=False";
         private static ConnectionMultiplexer connection;
 
         static void Main(string[] args)
@@ -18,11 +18,16 @@ namespace RedisConsole
         
             connection.Dispose();
             Console.WriteLine("Done");
+            Console.ReadLine();
                        
         }
         private static void Primitive()
         {
             IDatabase cache = connection.GetDatabase();
+
+            //cache.
+            cache.StringSet("Testje", "Hallo", TimeSpan.FromSeconds(60), When.Exists);
+
             string cacheCommand = "PING";
             Console.WriteLine("\nCache command  : " + cacheCommand);
             Console.WriteLine("Cache response : " + cache.Execute(cacheCommand).ToString());

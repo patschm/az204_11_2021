@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using WebSite.Models;
 using Newtonsoft.Json;
 using System.Net.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using StackExchange.Redis;
 
 namespace WebSite.Controllers
 {
@@ -18,12 +21,14 @@ namespace WebSite.Controllers
         private readonly ILogger<HomeController> _logger;
         private IDistributedCache _redis;
         private IHttpClientFactory _clients;
+        private IWebHostEnvironment _env;
 
-        public HomeController(IHttpClientFactory factory, IDistributedCache redis, ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory factory, IDistributedCache redis, IWebHostEnvironment env, ILogger<HomeController> logger)
         {
             _clients = factory;
             _redis = redis;
             _logger = logger;
+            _env = env;
         }
 
         public async Task<IActionResult> Index()
@@ -40,17 +45,19 @@ namespace WebSite.Controllers
 
         public async Task<IActionResult> Products(int id)
         {
-            
-           var products = await _redis.GetStringAsync($"products_{id}");
+            var key = $"products_{id}";
+            await _redis.RefreshAsync(key); // Sliding Expiration   
+            var products = await _redis.GetStringAsync(key);
             if (string.IsNullOrEmpty(products))
             {
-                await Task.Delay(30000);
+                await Task.Delay(20000);
                 var client = _clients.CreateClient("data");
                 var result = await client.GetAsync($"productgroups/products/{id}");
                 if (result.IsSuccessStatusCode)
                 {
                     products= await result.Content.ReadAsStringAsync();
-                    await _redis.SetStringAsync($"products_{id}", products, 
+                    
+                    await _redis.SetStringAsync(key, products, 
                         new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(120) });
                 }
             }
